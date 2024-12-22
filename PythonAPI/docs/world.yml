@@ -29,20 +29,31 @@
       doc: >
         Time register of the frame at which this measurement was taken given by the OS in seconds. 
     # - METHODS ----------------------------
-    methods:
+   methods:
     - def_name: __init__
+      # `__init__` 方法是 Python 中的类构造函数，当创建类的实例对象时，这个方法会被自动调用，
+      # 用于对实例对象进行初始化操作，比如给实例对象的属性赋初始值等。
       params:
       - param_name: frame
+        # `frame` 参数的类型为整数（int），结合前面 `Timestamp` 类的相关内容推测，
+        # 这个参数大概率是用来接收自模拟器启动以来经过的帧数，以便在初始化 `Timestamp` 类实例时设置对应的属性值。
         type: int
       - param_name: elapsed_seconds
         type: float
         param_units: seconds
+        # `elapsed_seconds` 参数类型是浮点数（float），单位为秒（seconds），
+        # 其作用应该是传入当前阶段开始后已经经过的模拟秒数，在实例初始化过程中用于初始化对应属性，从而记录相应的时间信息。
       - param_name: delta_seconds
         type: float
         param_units: seconds
+        # `delta_seconds` 参数同样是浮点数类型且单位为秒，它通常用于接收与前一帧间隔的模拟秒数，
+        # 通过传入这个值在初始化实例时设置对应属性，方便后续对帧间时间间隔相关情况进行处理和记录。
       - param_name: platform_timestamp
         type: float
         param_units: seconds
+        # `platform_timestamp` 参数也是浮点数类型，单位为秒，从其名称和前面类中相关属性的关联来看，
+        # 它是用来传入操作系统给出的测量该帧时的时间戳（以秒为单位）的值，在初始化实例时给对应的属性赋值，
+        # 进而使得实例对象能完整地记录下与时间相关的各类关键信息。
     # --------------------------------------
     - def_name: __eq__
       params:
