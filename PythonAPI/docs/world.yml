@@ -86,24 +86,52 @@
   - class_name: ActorList
     # - DESCRIPTION ------------------------
     doc: >
-      A class that contains every actor present on the scene and provides access to them. The list is automatically created and updated by the server and it can be returned using carla.World. 
+      # 以下这段文档字符串是用于描述某个类的功能和特性的。
+      A class that contains every actor present on the scene and provides access to them.
+      # 这句话表明该类的主要作用是容纳场景中存在的每一个“actor”（在相关的模拟或特定应用场景中，“actor”通常指代具有一定行为、属性，参与到整个场景交互中的实体对象，比如车辆、行人等），
+      # 并且提供了获取这些“actor”的途径，意味着可以通过这个类的相关接口或者属性等方式来访问场景中的各个“actor”实例。
+
+      The list is automatically created and updated by the server and it can be returned using carla.World.
+      # 这里进一步说明了关于这个包含“actor”列表的相关机制。其指出该列表是由服务器自动创建以及更新的，
+      # 也就是说这个类内部管理的“actor”集合不是手动去维护其增减变化的，而是依赖服务器端的操作来动态调整。
+      # 最后提到可以通过 `carla.World`（大概率是整个模拟场景相关的一个核心类或者接口，用于表示整个世界场景等情况）来返回这个包含所有“actor”的列表，
+      # 暗示了该类与 `carla.World` 之间存在某种关联，通过 `carla.World` 提供的功能或者方法能够获取到这个类所管理的包含所有场景“actor”的列表资源。
     # - METHODS ----------------------------
-    methods:
+   methods:
     - def_name: filter
+      # `filter` 方法通常用于对某个集合（在这里可能是 `Actors` 的列表，从后续描述推测）进行筛选操作，
+      # 根据特定的条件过滤出符合要求的元素，形成一个新的子集返回。
       return: list
+      # 该方法的返回值类型为列表（list），意味着经过筛选操作后，最终会返回一个包含符合筛选条件的元素的列表，
+      # 这里的元素大概率是与 `Actors` 相关的对象（结合上下文关于 `Actors` 的描述来推断）。
       params:
       - param_name: wildcard_pattern
         type: str
+        # `wildcard_pattern` 参数的类型是字符串（str），它用于指定筛选的模式。从文档说明来看，
+        # 这个模式会与 `Actors` 的 `__type_id__` 属性（这个属性用于标识生成 `Actors` 所使用的蓝图，是区分不同类型 `Actors` 的重要标识）进行匹配操作。
       doc: >
-        Filters a list of Actors matching `wildcard_pattern` against their variable __<font color="#f8805a">type_id</font>__ (which identifies the blueprint used to spawn them). Matching follows [fnmatch](https://docs.python.org/2/library/fnmatch.html) standard.  
+        Filters a list of Actors matching `wildcard_pattern` against their variable __<font color="#f8805a">type_id</font>__ (which identifies the blueprint used to spawn them). Matching follows [fnmatch](https://docs.python.org/2/library/fnmatch.html) standard.
+        # 这段文档字符串详细说明了 `filter` 方法的具体功能。即它会对一个 `Actors` 的列表进行筛选，筛选的依据是将传入的 `wildcard_pattern`（字符串形式的通配符模式）
+        # 与每个 `Actor` 的 `__type_id__` 属性进行匹配比较。`__type_id__` 属性在整个场景中是用于确定创建该 `Actor` 时所使用的蓝图信息的，通过这个属性来区分不同种类的 `Actor`。
+        # 并且这里的匹配规则遵循了 Python 的 `fnmatch` 模块所定义的标准（可以通过链接查看具体的 `fnmatch` 匹配规则相关内容，比如支持像 `*` 代表任意字符序列、`?` 代表单个任意字符等通配符的使用规则），
+        # 最终返回符合该通配符模式匹配要求的 `Actors` 组成的列表，从而实现按照特定类型标识来筛选 `Actors` 的功能。
     # --------------------------------------
-    - def_name: find
+    -def_name: find
+      # `find` 方法，从其名称可以大致推测出它的主要功能是用于查找某个特定对象的操作，在当前这个情境下，应该是在特定范围内查找一个 `Actor`。
       return: carla.Actor
+      # 该方法的返回值类型被指定为 `carla.Actor`，这意味着如果查找成功，方法将会返回一个 `carla.Actor` 类型的对象，
+      # 也就是找到了对应的那个符合条件的 `Actor`，并将其返回给调用者，方便后续对这个查找到的 `Actor` 进行相应的操作或使用。
+      # 但如果查找不到满足条件的 `Actor`，根据文档描述可知会返回 `None`，以此来表示查找失败的情况。
       params:
       - param_name: actor_id
         type: int
+        # `actor_id` 参数的类型是整数（int），它在这里充当了查找的关键依据。这个参数用于接收一个代表 `Actor` 的唯一标识符的值，
+        # 通过这个唯一标识符，方法内部会在相应的查找范围内（可能是某个管理 `Actor` 的集合或者场景等，具体要看整体代码上下文）去定位与之对应的 `Actor`。
       doc: >
-        Finds an actor using its identifier and returns it or <b>None</b> if it is not present. 
+        Finds an actor using its identifier and returns it or <b>None</b> if it is not present.
+        # 这段文档字符串清晰地说明了 `find` 方法的具体功能逻辑。即它会依据传入的 `actor_id`（作为要查找的 `Actor` 的标识符），
+        # 在合适的查找空间内尝试去寻找对应的 `Actor`。如果能够成功找到那个具有指定标识符的 `Actor`，就会将其返回；
+        # 而要是在查找过程中没有发现具有该标识符的 `Actor`，则按照规定返回 `None`，这样调用者可以通过判断返回值是否为 `None` 来知晓查找操作是否成功。
     # --------------------------------------
     - def_name: __getitem__
       return: carla.Actor
